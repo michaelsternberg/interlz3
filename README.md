@@ -18,11 +18,11 @@ Usage:
 
 where
 
-   + info3m.bin is an example Infocom ZIP
+   + `info3m.bin` is an example Infocom ZIP
     
-   + myfile.z3 is Z-code generated from the inform compiler
+   + `myfile.z3` is Z-code generated from the inform compiler
     
-   + yfile.dsk is the disk image to be created by interlz3
+   + `myfile.dsk` is the disk image to be created by interlz3
 
 
 NOTES:
