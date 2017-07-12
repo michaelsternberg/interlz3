@@ -14,9 +14,8 @@ http://ifarchive.org/indexes/if-archiveXinfocomXtools.html
 
 Usage:
 ------
-<pre>
-interlz3 info3m.bin myfile.z3 myfile.dsk
-</pre>
+    interlz3 info3m.bin myfile.z3 myfile.dsk
+
 where 
 + info3m.bin is an example Infocom ZIP
 + myfile.z3 is Z-code generated from the inform compiler
