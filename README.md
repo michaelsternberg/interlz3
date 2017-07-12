@@ -16,7 +16,8 @@ Usage:
 ------
     interlz3 info3m.bin myfile.z3 myfile.dsk
 
-where 
+where
+
    + info3m.bin is an example Infocom ZIP
     
    + myfile.z3 is Z-code generated from the inform compiler
@@ -30,9 +31,9 @@ To obtain a Z-machine interpreter:
 
    1. Find an Apple II Infocom disk image having a ZIP (v3) story file (Planetfall).
     
-   - Find the minor version (A, B, ..., M) by playing the game and entering $VERIFY at the parser prompt. 
+   1. Find the minor version (A, B, ..., M) by playing the game and entering $VERIFY at the parser prompt. 
     
-   - `head --bytes 12288 deadline.dsk > info3a.bin` (where a is the minor version in this example).
+   1. `head --bytes 12288 deadline.dsk > info3a.bin` (where a is the minor version in this example).
     
 
 To create v3 Z-code, use 'inform 6.1.5' and compatible inform libraries.
