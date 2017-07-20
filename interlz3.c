@@ -101,8 +101,8 @@ bool validate_zip(char* exe, char* filename)
                , "%s: (Stub file [%s] invalid - size [%d], not %d)\n"
                , basename(exe)
                , filename
-               , st.st_size
-               , STUBSIZE
+               , (int) st.st_size
+               , (int) STUBSIZE
                );
         rc = false;
     }
