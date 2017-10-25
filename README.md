@@ -38,4 +38,8 @@ To obtain a Z-machine interpreter:
 
 To create v3 Z-code, use 'inform 6.1.5' and compatible inform libraries.
 
+UPDATES:
+--------
+2017-10-24: Now handles ZIP (E) interpreter, which is non-interleaved
+
 

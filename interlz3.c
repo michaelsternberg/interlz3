@@ -98,11 +98,11 @@ bool validate_zip(char* exe, char* filename)
     if (st.st_size != STUBSIZE)
     {
         fprintf( stderr
-               , "%s: (Stub file [%s] invalid - size [%d], not %d)\n"
+               , "%s: (Stub file [%s] invalid - size [%lu], not %d)\n"
                , basename(exe)
                , filename
-               , (int) st.st_size
-               , (int) STUBSIZE
+               , st.st_size
+               , STUBSIZE
                );
         rc = false;
     }
@@ -159,25 +159,51 @@ void display_scoreboard(char* argv[])
     printf("  ║  ║ ║ ║   ║   ║     ║   ║ ║     INFOCOM DATA FILE RE-INTERLEAVE\n");
     printf("  ║  ║ ║ ║   ║   ║     ║   ║ ║     AND APPLE II DISK IMAGE MAKER\n");
     printf("  ║  ║ ║ ║   ║   ╟─╢   ╟──╥╜ ║\n");
-    printf("  ║  ║ ║ ║   ║   ║     ║  ║  ║     PORTED TO C BY M.STERNBERG (2017)\n");
-    printf("  ║  ║ ║ ║   ║   ║     ║  ║  ║     BASED ON WORK BY THE USOTSUKI\n");
-    printf(" ─╨─ ╨ ╙─╜   ╨   ╨───╜ ╨  ╙╜ ╨───╜ (c) 2002 DOSIUS SOFTWARE CO.\n\n");
+    printf("  ║  ║ ║ ║   ║   ║     ║  ║  ║     BASED ON THE WORK OF THE USOTSUKI\n");
+    printf("  ║  ║ ║ ║   ║   ║     ║  ║  ║     (c) 2002 DOSIUS SOFTWARE CO.\n");
+    printf(" ─╨─ ╨ ╙─╜   ╨   ╨───╜ ╨  ╙╜ ╨───╜ PORTED TO C BY M.STERNBERG (2017)\n\n");
     printf("Creating disk:  %s\n", argv[3]);
     printf("From data file: %s\n", argv[2]);
     printf("Using stub:     %s\n\n", argv[1]);
 }
 /*****************************************************************************/
-bool interleave(FILE* src, FILE* tgt)
+bool interleave(FILE* zip, FILE* src, FILE* tgt)
 {
     bool rc = true;
     unsigned int c, i, n, N, T;
+    uint8_t ch;
 
-    unsigned int sect[16] = { 0x0,0xD,0xB,0x9,0x7,0x5,0x3,0x1
+    unsigned int sect1[16] = { 0x0,0xD,0xB,0x9,0x7,0x5,0x3,0x1
                             , 0xE,0xC,0xA,0x8,0x6,0x4,0x2,0xF
                             };
 
+    unsigned int sect2[16] = { 0x0,0x1,0x2,0x3,0x4,0x5,0x6,0x7
+                             , 0x8,0x9,0xA,0xB,0xC,0xD,0xE,0xF
+                             };
+    unsigned int *sect;
+
     /* reserve 4k (16) 256-byte sectors */
     uint8_t buf[0x10][0x100];
+
+    /* Check if the z-machine interpreter is one 
+      of the rare non-interleaved schemes (Version E)
+     */
+    fseek(zip, 0x33L, SEEK_SET);
+    ch = (uint8_t) fgetc(zip);
+
+    if (ch == 0x49) /* Version E */
+    {
+        printf("[%X] Using non-interleave scheme\n", ch);
+        sect = sect2;
+    }
+    else
+    {
+        printf("[%X] Using interleave scheme\n", ch);
+        sect = sect1;
+    }
+
+    /* Reset to head of file */
+    fseek(zip, 0x0L, SEEK_SET);
 
     /* Total bytes read/written */
     T = 0;
@@ -227,7 +253,7 @@ int main (int argc, char* argv[])
 
     printf("Stub copied\n");
 
-    if (!interleave(src, tgt)) exit(1);
+    if (!interleave(zip, src, tgt)) exit(1);
     
     printf("Done!\n\n");
 
