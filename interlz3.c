@@ -26,6 +26,7 @@
  * DEVELOPMENT HISTORY:
  * 2017-05-28  Initial port from QBASIC to C
  * 2017-07-11  General clean up
+ * 2017-10-24  Added support for ZIP (E) interpreter - non-interleaved sectors
  *****************************************************************************/
 
 #include <ctype.h>
