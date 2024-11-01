@@ -1,7 +1,7 @@
 # README #
 
 interlz3 creates an Apple II DOS-ordered (.dsk/.po) disk image file using an Infocom Z-machine interpreter (ZIP)
-and Z-code (story file) as input. The Z-code is created using the Inform compiler (6.1.5 creates z3 code).
+and Z-code (story file) as input. The Z-code is created using the Inform compiler (6.15 creates z3 code).
 
 The problem being solved by interlz3s is that most Infocom's Z-machine interpreters for the Apple II expect
 the sectors to be interleaved in a particular order and not just written sequentially to the disk.
